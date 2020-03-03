@@ -300,20 +300,43 @@ public class DBproject{
 	}//end readChoice
 
 	public static void AddPlane(DBproject esql) {//1
+		int id;
+		String make;
+		String model;
+		int age;
+		int seats;
+		
 	}
 
 	public static void AddPilot(DBproject esql) {//2
+		int id;
+		String fullname;
+		String nationality;
 	}
 
 	public static void AddFlight(DBproject esql) {//3
 		// Given a pilot, plane and flight, adds a flight in the DB
+		int fnum;
+		int cost;
+		int num_sold;
+		int num_stops;
+		String actual_departure_date;
+		String actual_arrival_date;
+		String arrival_airport;
+		String departure_airport;
 	}
 
 	public static void AddTechnician(DBproject esql) {//4
+		int id;
+		String full_name;
+		
 	}
 
 	public static void BookFlight(DBproject esql) {//5
 		// Given a customer and a flight that he/she wants to book, add a reservation to the DB
+		int rnum;
+		int cid;
+		int fid;
 	}
 
 	public static void ListNumberOfAvailableSeats(DBproject esql) {//6
