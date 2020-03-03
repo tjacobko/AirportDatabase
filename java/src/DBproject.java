@@ -306,12 +306,19 @@ public class DBproject{
 		int age;
 		int seats;
 		
+		/*INSERT INTO PLANE (id,make.model,age,seats);
+		 * VALUES(id, make, model, age, seats);*/
 	}
 
 	public static void AddPilot(DBproject esql) {//2
 		int id;
 		String fullname;
 		String nationality;
+		
+		/*INSERT INT PILOT(id, fullname, nationality);
+		 * VALUES(id, fullname, nationality)*/
+		 
+		 
 	}
 
 	public static void AddFlight(DBproject esql) {//3
@@ -324,11 +331,19 @@ public class DBproject{
 		String actual_arrival_date;
 		String arrival_airport;
 		String departure_airport;
+		
+		/*INSERT INTO FLIGHT(fnum, cost, num_sold, num_stop, actual_departure_date, 
+		 * actual_arrival_date, arrival_airport, departure_airport);
+		 * VALUES(fnum, cost, num_sold, num_stop, actual_departure_date, 
+		 * actual_arrival_date, arrival_airport, departure_airport);*/
 	}
 
 	public static void AddTechnician(DBproject esql) {//4
 		int id;
 		String full_name;
+		
+		/*INSERT INTO Technician(id, full_name)
+		 * VALUES(id, full_name*/
 		
 	}
 
