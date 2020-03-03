@@ -337,21 +337,61 @@ public class DBproject{
 		int rnum;
 		int cid;
 		int fid;
+		String status;
+		
+		//INSERT INTO RESERVATION (rnum, cid, fid, status)
+		//VALUES (rnum, cid, fid, status)
+		
+		//Use fid to get plane_id, check num_sold < plane.seats
+		//ask for flight data & time, then compare with fid and put w/c/r
 	}
 
 	public static void ListNumberOfAvailableSeats(DBproject esql) {//6
 		// For flight number and date, find the number of availalbe seats (i.e. total plane capacity minus booked seats )
+		int fnum;
+		int a_d_date;
+		
+
+		/*
+		* SELECT(
+			SELECT p.seats 
+			FROM Plane p
+			WHERE p.id = (
+			SELECT fi.plane_id
+			FROM FlightInfo fi
+			WHERE fi.flight_id = '50'))
+			-
+			(
+			SELECT f.num_sold
+			FROM flight f
+			WHERE f.fnum = '50')as seatsAvailable;*/
+		
 	}
 
 	public static void ListsTotalNumberOfRepairsPerPlane(DBproject esql) {//7
 		// Count number of repairs per planes and list them in descending order
+		/*SELECT COUNT(*) as totalRepairs, p.id
+FROM Repairs r, Plane p
+WHERE r.plane_id = p.id
+GROUP BY p.id
+ORDER BY totalRepairs DESC;*/
 	}
 
 	public static void ListTotalNumberOfRepairsPerYear(DBproject esql) {//8
 		// Count repairs per year and list them in ascending order
+		/*
+		 * SELECT EXTRACT(YEAR FROM r.repair_date) AS year, COUNT(*) as totalRepiars
+FROM Repairs r, Plane p
+GROUP by year;*/
 	}
 	
 	public static void FindPassengersCountWithStatus(DBproject esql) {//9
 		// Find how many passengers there are with a status (i.e. W,C,R) and list that number.
+		
+		/*
+		 * SELECT COUNT(*) as totalPassengers, r.status
+			FROM Reservation r, Customer c
+			WHERE r.cid = c.id AND r.status='W'
+			GROUP BY r.status;*/
 	}
 }
