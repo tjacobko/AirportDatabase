@@ -305,9 +305,88 @@ public class DBproject{
 		String model;
 		int age;
 		int seats;
+		System.out.println("hello");
+		
+		do{
+			System.out.print("Please input Plane ID Number: ");
+			try{
+				id = Integer.parseInt(in.readLine());
+				break;
+			}
+			catch(Exception e){
+				System.out.println("Invalid input. Please enter a valid ID.");
+				continue;
+			}
+			
+		}while(true);
+		
+		do{
+			System.out.print("Please input Plane Make: ");
+			try{
+				make = in.readLine();
+				if(make.length() <= 0 || make.length() > 32){
+					throw new RuntimeException("Plane Make must be 32 characters or less");
+				}
+				break;
+			}
+			catch(Exception e){
+				System.out.println(e.getMessage());
+				continue;
+			}
+			
+		}while(true);
+		
+		do{
+			System.out.print("Please input Plane Model: ");
+			try{
+				model = in.readLine();
+				if(model.length() <= 0 || model.length() > 64){
+					throw new RuntimeException("Plane Model must be 64 characters or less");
+				}
+				break;
+			}
+			catch(Exception e){
+				System.out.println(e.getMessage());
+				continue;
+			}
+			
+		}while(true);
+		
+		do{
+			System.out.print("Please input Plane Age: ");
+			try{
+				age = Integer.parseInt(in.readLine());
+				if(age < 0){
+					throw new RuntimeException("Age can not be negative.");
+				}
+				break;
+			}
+			catch(Exception e){
+				System.out.println(e.getMessage());
+				continue;
+			}
+			
+		}while(true);
+		
+		do{
+			System.out.print("Please input number of Plane Seats: ");
+			try{
+				seats = Integer.parseInt(in.readLine());
+				if(seats < 0 || seats >= 500){
+					throw new RuntimeException("Number of seats can not be negative.");
+				}
+				break;
+			}
+			catch(Exception e){
+				System.out.println(e.getMessage());
+				continue;
+			}
+			
+		}while(true);
 		
 		/*INSERT INTO PLANE (id,make.model,age,seats);
 		 * VALUES(id, make, model, age, seats);*/
+		 
 	}
 
 	public static void AddPilot(DBproject esql) {//2
@@ -390,14 +469,34 @@ FROM Repairs r, Plane p
 WHERE r.plane_id = p.id
 GROUP BY p.id
 ORDER BY totalRepairs DESC;*/
+		String query;
+		try{
+			query = "SELECT COUNT(*) as \"totalRepairs\", p.id\nFROM repairs r, Plane p WHERE p.id=r.plane_id\nGROUP BY p.id ORDER BY \"totalRepairs\" DESC;";
+			esql.executeQueryAndPrintResult(query);
+
+		}
+		catch(Exception e){
+			System.err.println(e.getMessage());
+		}
 	}
 
 	public static void ListTotalNumberOfRepairsPerYear(DBproject esql) {//8
 		// Count repairs per year and list them in ascending order
 		/*
 		 * SELECT EXTRACT(YEAR FROM r.repair_date) AS year, COUNT(*) as totalRepiars
-FROM Repairs r, Plane p
-GROUP by year;*/
+			FROM Repairs r, Plane p
+			GROUP by year;*/
+		String query;
+		
+		try
+		{
+			query = "SELECT EXTRACT (Year FROM r.repair_date) as \"Year\", count(r.rid) as \"totalRepairs\"\nFROM repairs r\nGROUP BY \"Year\"\nORDER BY \"totalRepairs\" ASC;";
+			esql.executeQueryAndPrintResult(query);
+		}
+		catch (Exception e)
+		{
+			System.err.println(e.getMessage());
+		}
 	}
 	
 	public static void FindPassengersCountWithStatus(DBproject esql) {//9
