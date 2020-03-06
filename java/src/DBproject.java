@@ -383,6 +383,16 @@ public class DBproject{
 			}
 			
 		}while(true);
+		try{
+			String query = "INSERT INTO Plane (id, make, model, age, seats)\nVALUES(" + "\'" + id + "\',\'" + make + "\',\'"+ model + "\',\'" + age + "\',\'" + seats + "\');";
+			//String query = "INSERT INTO Plane (id, make, model, age, seats)\nVALUES(" + "\'" + "69" + "\',\'" + "Honda" + "\',\'"+ "plane" + "\',\'" + "22" + "\',\'" + "200" + "\');";
+			
+			esql.executeQueryAndPrintResult(query);
+
+		}
+		catch(Exception e){
+			System.err.println(e.getMessage());
+		}
 		
 		/*INSERT INTO PLANE (id,make.model,age,seats);
 		 * VALUES(id, make, model, age, seats);*/
@@ -431,7 +441,94 @@ public class DBproject{
 		int rnum;
 		int cid;
 		int fid;
+		String date;
 		String status;
+		
+		do{
+			System.out.print("Please input Customer ID: ");
+			try{
+				cid = Integer.parseInt(in.readLine());
+				break;
+			}
+			catch(Exception e){
+				System.out.println("Invalid input. Please input a valid Customer ID");
+				continue;
+			}
+		}while(true);
+		
+		do{
+			System.out.print("Please input Flight ID: ");
+			try{
+				fid = Integer.parseInt(in.readLine());
+				
+				String ret = "SELECT fi.fiid\nFROM FlightInfo fi\n WHERE fi.fiid =" + Integer.toString(fid)+';';
+				int x = esql.executeQueryAndPrintResult(ret);
+
+				if(x == 0){
+					throw new RuntimeException("Flight does not exist.");
+
+				}
+				break;
+			}
+			catch(Exception e){
+							System.err.println(e.getMessage());
+
+			}
+			
+		}while(true);
+		boolean exists = false;
+		do{
+			try{
+				String check = "SELECT R.rnum\nFROM Reservation r\n WHERE r.cid =" + Integer.toString(cid) + "AND r.fid =" + Integer.toString(fid)+';';
+				int a = esql.executeQueryAndPrintResult(check);
+				if( a == 1){
+					System.out.println("Reservation found!");
+					String checkStatus = "SELECT R.rnum\nFROM Reservation r\n WHERE r.cid =" + Integer.toString(cid) + "AND r.fid =" + Integer.toString(fid)+ "AND r.status = \'R\';";
+					int b = esql.executeQueryAndPrintResult(checkStatus);
+					if(b == 1){
+						System.out.println("Your reservation is reserved. Would you like to confirm?");
+					}
+					else{
+						throw new RuntimeException("Reservation not reserved");
+
+					}
+					
+					
+				}
+				else{
+					throw new RuntimeException("Reservation does not exist.");
+				}
+				break;
+
+			}
+			catch(Exception e){
+							System.err.println(e.getMessage());
+							continue;
+
+
+			}
+		}while(true);
+		
+		
+		/*do{
+			System.out.print("Please input date: ");
+			try{
+				date = in.readLine();
+				
+				String ret = "SELECT f.actual_departure_date\nFROM Flight f\nWHERE f.actual_departure_date =" + date+';';
+				int x = esql.executeQueryAndPrintResult(ret);
+				
+				System.out.println("x: "+ x);
+				if(x == 0){
+					throw new RuntimeException("Flight does not exist.");
+				}	
+				break;
+			}
+			catch(Exception e){
+				System.out.println(e.getMessage());
+				continue;
+			}
+		}while(true);*/
 		
 		//INSERT INTO RESERVATION (rnum, cid, fid, status)
 		//VALUES (rnum, cid, fid, status)

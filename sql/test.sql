@@ -1,4 +1,4 @@
-SELECT(
+/*SELECT(
 SELECT p.seats 
 FROM Plane p
 WHERE p.id = (
@@ -10,12 +10,12 @@ WHERE fi.flight_id = '50'))
 SELECT f.num_sold
 FROM flight f
 WHERE f.fnum = '50')as seatsAvailable;
-/*
+
 
 
 SELECT fi.plane_id
 FROM FlightInfo fi
-WHERE fi.flight_id = '50';*/
+WHERE fi.flight_id = '50';
 
 SELECT COUNT(*) as totalRepairs, p.id
 FROM Repairs r, Plane p
@@ -30,4 +30,7 @@ GROUP by year;
 SELECT COUNT(*) as totalPassengers, r.status
 FROM Reservation r, Customer c
 WHERE r.cid = c.id AND r.status='W'
-GROUP BY r.status;
+GROUP BY r.status;*/
+
+INSERT INTO PLANE (id,make,model,age,seats)
+		  VALUES('68', 'honda', 'plane', '16', '200');
