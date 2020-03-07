@@ -477,26 +477,63 @@ public class DBproject{
 			
 		}while(true);
 		boolean exists = false;
+		String input;
 		do{
 			try{
 				String check = "SELECT R.rnum\nFROM Reservation r\n WHERE r.cid =" + Integer.toString(cid) + "AND r.fid =" + Integer.toString(fid)+';';
 				int a = esql.executeQueryAndPrintResult(check);
 				if( a == 1){
-					System.out.println("Reservation found!");
-					String checkStatus = "SELECT R.rnum\nFROM Reservation r\n WHERE r.cid =" + Integer.toString(cid) + "AND r.fid =" + Integer.toString(fid)+ "AND r.status = \'R\';";
-					int b = esql.executeQueryAndPrintResult(checkStatus);
-					if(b == 1){
-						System.out.println("Your reservation is reserved. Would you like to confirm?");
+					try{
+						System.out.println("Reservation found!");
+						String checkStatus = "SELECT R.rnum\nFROM Reservation r\n WHERE r.cid =" + Integer.toString(cid) + "AND r.fid =" + Integer.toString(fid)+ "AND r.status = \'R\';";
+						int b = esql.executeQueryAndPrintResult(checkStatus);
+						if(b == 1){
+							do{
+								try{
+								System.out.println("Your reservation is reserved. Would you like to confirm? (Y/N)");
+								input = in.readLine();
+								if(input.equals("y")){
+									do{
+										try{
+											String updateRes = "UPDATE RESERVATION\nSET status = 'C'\n WHERE cid =" + Integer.toString(cid) + "AND fid =" + Integer.toString(fid)+';';
+											int x = (esql.executeQueryAndPrintResult(updateRes));
+											System.out.println(x);
+											/*if(esql.executeQueryAndPrintResult(updateRes) == 1){
+												System.out.println("Reservation is now confirmed!");
+											}
+											else{
+												System.out.println("error");
+											}*/
+											
+											break;
+										}
+										catch(Exception e){
+											System.out.println("Invalid input");
+											continue;
+										}
+									}while(true);
+								}
+								break;
+								
+								
+							}
+							catch(Exception e){
+								System.out.println("Your input is invalid.");
+								continue;
+							}
+							}while(true);
+							
+						}
+						
 					}
-					else{
-						throw new RuntimeException("Reservation not reserved");
-
+					catch(Exception e){
+						System.out.println("Reservation not reserved");
+						break;
 					}
-					
-					
 				}
 				else{
-					throw new RuntimeException("Reservation does not exist.");
+					System.out.println("Reservation does not exist.");
+					
 				}
 				break;
 
