@@ -471,12 +471,12 @@ public class DBproject{
 				break;
 			}
 			catch(Exception e){
-							System.err.println(e.getMessage());
+				System.err.println("Flight does not exist.");
+				continue;
 
 			}
 			
 		}while(true);
-		boolean exists = false;
 		String input;
 		do{
 			try{
@@ -490,21 +490,15 @@ public class DBproject{
 						if(b == 1){
 							do{
 								try{
-								System.out.println("Your reservation is reserved. Would you like to confirm? (Y/N)");
+								System.out.println("Your reservation is  currently reserved. Would you like to confirm? (Y/N)");
 								input = in.readLine();
-								if(input.equals("y")){
+								if(input.equals("y") || input.equals("Y")){
 									do{
 										try{
+											System.out.println("hey");
 											String updateRes = "UPDATE RESERVATION\nSET status = 'C'\n WHERE cid =" + Integer.toString(cid) + "AND fid =" + Integer.toString(fid)+';';
-											int x = (esql.executeQueryAndPrintResult(updateRes));
-											System.out.println(x);
-											/*if(esql.executeQueryAndPrintResult(updateRes) == 1){
-												System.out.println("Reservation is now confirmed!");
-											}
-											else{
-												System.out.println("error");
-											}*/
-											
+											esql.executeUpdate(updateRes);
+											System.out.println("Your reservation is now confirmed!");
 											break;
 										}
 										catch(Exception e){
@@ -513,18 +507,20 @@ public class DBproject{
 										}
 									}while(true);
 								}
+								else{
+									System.out.println("Reservation not confirmed.");
+								}
 								break;
-								
-								
 							}
 							catch(Exception e){
 								System.out.println("Your input is invalid.");
 								continue;
 							}
-							}while(true);
-							
+							}while(true);	
 						}
-						
+					else{
+						System.out.println("Your reservation is already confirmed!");
+					}
 					}
 					catch(Exception e){
 						System.out.println("Reservation not reserved");
@@ -539,11 +535,46 @@ public class DBproject{
 
 			}
 			catch(Exception e){
-							System.err.println(e.getMessage());
+							System.err.println("Error");
 							continue;
-
-
 			}
+		}while(true);
+		
+		do{
+			try{
+				String checkSeats = "SELECT COUNT(*) \nFROM FlightInfo fi, Flight f, Plane p \n WHERE fi.flight_id ="+ Integer.toString(fid)+"AND fi.plane_id = p.id AND f.num_sold < p.seats;";
+				int s = esql.executeQueryAndPrintResult(checkSeats);
+				if(s == 0){
+					do{
+						System.out.println("Input new reservation number. (Must be greater than 9999)");
+						try{
+							rnum = Integer.parseInt(in.readLine());
+							if(rnum > 9999){
+								status = 'R';
+								String query = "INSERT INTO Reservation (rnum, cid, fid, status)\nVALUES(" + "\'" + rnum + "\',\'" + cid + "\',\'"+ fid + "\',\'" + status + "\');";
+								esql.executeQueryAndPrintResult(query);
+							}
+							else{
+								throw new RuntimeException("Reservation number not large enough");
+							}
+
+							break;
+						}
+						catch(Exception e){
+							System.out.println(e.getMessage());
+							continue;
+						}
+					}while(true)
+				}	
+				break;
+			}
+			catch(Exception e){
+				System.out.println("Invalid");
+				continue;
+			}
+			
+				
+			
 		}while(true);
 		
 		
