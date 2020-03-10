@@ -387,7 +387,7 @@ public class DBproject{
 			String query = "INSERT INTO Plane (id, make, model, age, seats)\nVALUES(" + "\'" + id + "\',\'" + make + "\',\'"+ model + "\',\'" + age + "\',\'" + seats + "\');";
 			//String query = "INSERT INTO Plane (id, make, model, age, seats)\nVALUES(" + "\'" + "69" + "\',\'" + "Honda" + "\',\'"+ "plane" + "\',\'" + "22" + "\',\'" + "200" + "\');";
 			
-			esql.executeQueryAndPrintResult(query);
+			esql.executeUpdate(query);
 
 		}
 		catch(Exception e){
@@ -448,10 +448,16 @@ public class DBproject{
 			System.out.print("Please input Customer ID: ");
 			try{
 				cid = Integer.parseInt(in.readLine());
+				
+				String checkCustomer ="SELECT c.id\nFROM Customer c\n WHERE c.id =" + Integer.toString(cid) +';';
+				
+				if(esql.executeQuery(checkCustomer) == 0){
+					throw new RuntimeException("Customer ID not found.");
+				}
 				break;
 			}
 			catch(Exception e){
-				System.out.println("Invalid input. Please input a valid Customer ID");
+				System.err.println(e.getMessage());
 				continue;
 			}
 		}while(true);
@@ -462,9 +468,8 @@ public class DBproject{
 				fid = Integer.parseInt(in.readLine());
 				
 				String ret = "SELECT fi.fiid\nFROM FlightInfo fi\n WHERE fi.fiid =" + Integer.toString(fid)+';';
-				int x = esql.executeQueryAndPrintResult(ret);
 
-				if(x == 0){
+				if(esql.executeQuery(ret) == 0){
 					throw new RuntimeException("Flight does not exist.");
 
 				}
@@ -478,16 +483,20 @@ public class DBproject{
 			
 		}while(true);
 		String input;
-		do{
-			try{
-				String check = "SELECT R.rnum\nFROM Reservation r\n WHERE r.cid =" + Integer.toString(cid) + "AND r.fid =" + Integer.toString(fid)+';';
-				int a = esql.executeQueryAndPrintResult(check);
-				if( a == 1){
-					try{
+		int b;
+		int c;
+		int d;
+		try{
+			String check = "SELECT R.rnum\nFROM Reservation r\n WHERE r.cid =" + Integer.toString(cid) + "AND r.fid =" + Integer.toString(fid)+';';
+				if(esql.executeQuery(check) ==  1){
+					do{
+						try{
 						System.out.println("Reservation found!");
-						String checkStatus = "SELECT R.rnum\nFROM Reservation r\n WHERE r.cid =" + Integer.toString(cid) + "AND r.fid =" + Integer.toString(fid)+ "AND r.status = \'R\';";
-						int b = esql.executeQueryAndPrintResult(checkStatus);
-						if(b == 1){
+						String checkStatus = "SELECT R.rnum\nFROM Reservation r\n WHERE r.cid =" + Integer.toString(cid) + "AND r.fid =" + Integer.toString(fid)+ "AND r.status = \'R\' AND r.status != \'W\';";
+						String checkWait = "SELECT R.rnum\nFROM Reservation r\n WHERE r.cid =" + Integer.toString(cid) + "AND r.fid =" + Integer.toString(fid)+ "AND r.status = \'W\';";
+						String checkConfirm = "SELECT R.rnum\nFROM Reservation r\n WHERE r.cid =" + Integer.toString(cid) + "AND r.fid =" + Integer.toString(fid)+ "AND r.status = \'C\';";
+
+						if(esql.executeQuery(checkStatus) == 1){
 							do{
 								try{
 								System.out.println("Your reservation is  currently reserved. Would you like to confirm? (Y/N)");
@@ -495,7 +504,6 @@ public class DBproject{
 								if(input.equals("y") || input.equals("Y")){
 									do{
 										try{
-											System.out.println("hey");
 											String updateRes = "UPDATE RESERVATION\nSET status = 'C'\n WHERE cid =" + Integer.toString(cid) + "AND fid =" + Integer.toString(fid)+';';
 											esql.executeUpdate(updateRes);
 											System.out.println("Your reservation is now confirmed!");
@@ -507,8 +515,8 @@ public class DBproject{
 										}
 									}while(true);
 								}
-								else{
-									System.out.println("Reservation not confirmed.");
+								else if(!input.equals("n")){
+									throw new RuntimeException("Invalid input! Please input Y or N");
 								}
 								break;
 							}
@@ -518,85 +526,75 @@ public class DBproject{
 							}
 							}while(true);	
 						}
-					else{
-						System.out.println("Your reservation is already confirmed!");
+					else if(esql.executeQuery(checkWait) == 1){
+						System.out.println("You are currently on the waitlist.");
+						break;
 					}
+					else if(esql.executeQuery(checkConfirm) == 1){
+						System.out.println("Your reservation is already confirmed!");
+						break;
+					}
+					else{
+						break;
+					}
+					break;
 					}
 					catch(Exception e){
 						System.out.println("Reservation not reserved");
-						break;
+						continue;
 					}
-				}
-				else{
-					System.out.println("Reservation does not exist.");
+					}while(true);
 					
 				}
-				break;
-
-			}
-			catch(Exception e){
-							System.err.println("Error");
-							continue;
-			}
-		}while(true);
-		
-		do{
-			try{
-				String checkSeats = "SELECT COUNT(*) \nFROM FlightInfo fi, Flight f, Plane p \n WHERE fi.flight_id ="+ Integer.toString(fid)+"AND fi.plane_id = p.id AND f.num_sold < p.seats;";
-				int s = esql.executeQueryAndPrintResult(checkSeats);
-				if(s == 0){
+				else{
 					do{
-						System.out.println("Input new reservation number. (Must be greater than 9999)");
 						try{
-							rnum = Integer.parseInt(in.readLine());
-							if(rnum > 9999){
-								status = 'R';
-								String query = "INSERT INTO Reservation (rnum, cid, fid, status)\nVALUES(" + "\'" + rnum + "\',\'" + cid + "\',\'"+ fid + "\',\'" + status + "\');";
-								esql.executeQueryAndPrintResult(query);
-							}
-							else{
-								throw new RuntimeException("Reservation number not large enough");
-							}
+							System.out.println("You currently do not have a reservation.");
+							String checkSeats = "SELECT COUNT(*) \nFROM FlightInfo fi, Flight f, Plane p \n WHERE fi.flight_id ="+ Integer.toString(fid)+"AND fi.plane_id = p.id AND f.num_sold < p.seats;";
+							int s = esql.executeQuery(checkSeats);
+							if(s == 1){
+								do{
+									System.out.println("Input new reservation number. (Must be greater than 9999)");
+									try{
+										rnum = Integer.parseInt(in.readLine());
+										if(rnum > 9999){
+											status = "R";
+											String query = "INSERT INTO Reservation (rnum, cid, fid, status)\nVALUES(" + "\'" + rnum + "\',\'" + cid + "\',\'"+ fid + "\',\'" + status + "\');";
+											esql.executeUpdate(query);
+											System.out.println("Your flight is now reserved!");
+										}
+										else{
+											throw new RuntimeException("Reservation number not large enough");
+										}
 
+										break;
+									}
+									catch(Exception e){
+										System.out.println(e.getMessage());
+										continue;
+									}
+								}while(true);
+							}	
 							break;
 						}
 						catch(Exception e){
-							System.out.println(e.getMessage());
+							System.out.println("Invalid");
 							continue;
 						}
-					}while(true)
-				}	
-				break;
-			}
-			catch(Exception e){
-				System.out.println("Invalid");
-				continue;
-			}
 			
-				
-			
-		}while(true);
+					}while(true);
+					
+				}
+		}
+		catch(Exception e){
+			System.err.println(e.getMessage());
+		}
+
 		
 		
-		/*do{
-			System.out.print("Please input date: ");
-			try{
-				date = in.readLine();
-				
-				String ret = "SELECT f.actual_departure_date\nFROM Flight f\nWHERE f.actual_departure_date =" + date+';';
-				int x = esql.executeQueryAndPrintResult(ret);
-				
-				System.out.println("x: "+ x);
-				if(x == 0){
-					throw new RuntimeException("Flight does not exist.");
-				}	
-				break;
-			}
-			catch(Exception e){
-				System.out.println(e.getMessage());
-				continue;
-			}
-		}while(true);*/
+		
+		
+	
 		
 		//INSERT INTO RESERVATION (rnum, cid, fid, status)
 		//VALUES (rnum, cid, fid, status)
