@@ -532,10 +532,10 @@ public class DBproject{
 		}while(true);
 		
     do{
-			System.out.print("Please input Flight actual departure date (e.g. 1/1/2000  1:10:00 PM): ");
+      System.out.print("Please input Flight actual departure date (e.g. MM/DD/YYYY  HH:MM:SS AM/PM): ");
 			try{
 				actual_departure_date = in.readLine();
-				if(actual_departure_date.length() <= 0 || actual_departure_date.length() > 32){
+				if(actual_departure_date.length() <= 0 || actual_departure_date.length() > 23){
 					throw new RuntimeException("Actual departure date must be 32 characters or less");
 				}
 				break;
@@ -548,11 +548,11 @@ public class DBproject{
 		}while(true);
    
     do{
-			System.out.print("Please input Flight actual arrival date (e.g. 1/1/2000  1:10:00 PM): ");
+      System.out.print("Please input Flight actual arrival date (e.g. MM/DD/YYYY  HH:MM:SS AM/PM): ");
 			try{
 				actual_arrival_date = in.readLine();
-				if(actual_arrival_date.length() <= 0 || actual_arrival_date.length() > 32){
-					throw new RuntimeException("Actual arrival date must be 32 characters or less");
+				if(actual_arrival_date.length() <= 0 || actual_arrival_date.length() > 23){
+					throw new RuntimeException("Actual arrival date must be 23 characters or less");
 				}
 				break;
 			}
@@ -830,7 +830,7 @@ public class DBproject{
 	public static void ListNumberOfAvailableSeats(DBproject esql) {//6
 		// For flight number and date, find the number of availalbe seats (i.e. total plane capacity minus booked seats )
 		int fnum;
-		int a_d_date;
+		String a_d_date;
 		
     do{
 			System.out.print("Please input Flight Number: ");
@@ -846,11 +846,11 @@ public class DBproject{
 		}while(true);
    
     do{
-			System.out.print("Please input Flight actual departure date (e.g. 1/1/2000  1:10:00 PM): ");
+			System.out.print("Please input Flight actual departure date (e.g. MM/DD/YYYY  HH:MM:SS AM/PM): ");
 			try{
 				a_d_date = in.readLine();
-				if(a_d_date.length() <= 0 || a_d_date.length() > 32){
-					throw new RuntimeException("Actual departure date must be 32 characters or less");
+				if(a_d_date.length() <= 0 || a_d_date.length() > 23){
+					throw new RuntimeException("Actual departure date must be 23 characters or less");
 				}
 				break;
 			}
