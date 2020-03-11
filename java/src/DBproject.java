@@ -383,6 +383,7 @@ public class DBproject{
 			}
 			
 		}while(true);
+   
 		try{
 			String query = "INSERT INTO Plane (id, make, model, age, seats)\nVALUES(" + "\'" + id + "\',\'" + make + "\',\'"+ model + "\',\'" + age + "\',\'" + seats + "\');";
 			//String query = "INSERT INTO Plane (id, make, model, age, seats)\nVALUES(" + "\'" + "69" + "\',\'" + "Honda" + "\',\'"+ "plane" + "\',\'" + "22" + "\',\'" + "200" + "\');";
@@ -403,7 +404,63 @@ public class DBproject{
 		int id;
 		String fullname;
 		String nationality;
-		
+		System.out.println("hello");
+   
+    do{
+			System.out.print("Please input Pilot ID Number: ");
+			try{
+				id = Integer.parseInt(in.readLine());
+				break;
+			}
+			catch(Exception e){
+				System.out.println(e.getMessage());
+				continue;
+			}
+			
+		}while(true);
+   
+    do{
+			System.out.print("Please input Pilot's full name (e.g. Firstname Lastname): ");
+			try{
+				fullname = in.readLine();
+				if(fullname.length() <= 0 || fullname.length() > 128){
+					throw new RuntimeException("Pilot Full Name must be 128 characters or less");
+				}
+				break;
+			}
+			catch(Exception e){
+				System.out.println(e.getMessage());
+				continue;
+			}
+			
+		}while(true);
+
+    do{
+			System.out.print("Please input Pilot's Nationality: ");
+			try{
+				nationality = in.readLine();
+				if(nationality.length() <= 0 || nationality.length() > 24){
+					throw new RuntimeException("Pilot Nationality must be 24 characters or less");
+				}
+				break;
+			}
+			catch(Exception e){
+				System.out.println(e.getMessage());
+				continue;
+			}
+			
+		}while(true);
+   
+    try{
+      String query = "INSERT INTO Pilot (id, fullname, nationality)\nVALUES(" + "\'" + id + "\',\'" + fullname + "\',\'" + nationality + "\');";
+			
+			esql.executeUpdate(query);
+
+		}
+		catch(Exception e){
+			System.err.println(e.getMessage());
+		}
+   
 		/*INSERT INT PILOT(id, fullname, nationality);
 		 * VALUES(id, fullname, nationality)*/
 		 
@@ -420,7 +477,134 @@ public class DBproject{
 		String actual_arrival_date;
 		String arrival_airport;
 		String departure_airport;
+    System.out.println("hello");
+   
+    do{
+			System.out.print("Please input Flight Number: ");
+			try{
+				fnum = Integer.parseInt(in.readLine());
+				break;
+			}
+			catch(Exception e){
+				System.out.println(e.getMessage());
+				continue;
+			}
+			
+		}while(true);
+   
+    do{
+			System.out.print("Please input Flight cost: ");
+			try{
+				cost = Integer.parseInt(in.readLine());
+				break;
+			}
+			catch(Exception e){
+				System.out.println(e.getMessage());
+				continue;
+			}
+			
+		}while(true);
+   
+    do{
+			System.out.print("Please input number of tickets sold: ");
+			try{
+				num_sold = Integer.parseInt(in.readLine());
+				break;
+			}
+			catch(Exception e){
+				System.out.println(e.getMessage());
+				continue;
+			}
+			
+		}while(true);
+   
+    do{
+			System.out.print("Please input number of stops: ");
+			try{
+				num_stops = Integer.parseInt(in.readLine());
+				break;
+			}
+			catch(Exception e){
+				System.out.println(e.getMessage());
+				continue;
+			}
+			
+		}while(true);
 		
+    do{
+			System.out.print("Please input Flight actual departure date (e.g. 1/1/2000  1:10:00 PM): ");
+			try{
+				actual_departure_date = in.readLine();
+				if(actual_departure_date.length() <= 0 || actual_departure_date.length() > 32){
+					throw new RuntimeException("Actual departure date must be 32 characters or less");
+				}
+				break;
+			}
+			catch(Exception e){
+				System.out.println(e.getMessage());
+				continue;
+			}
+			
+		}while(true);
+   
+    do{
+			System.out.print("Please input Flight actual arrival date (e.g. 1/1/2000  1:10:00 PM): ");
+			try{
+				actual_arrival_date = in.readLine();
+				if(actual_arrival_date.length() <= 0 || actual_arrival_date.length() > 32){
+					throw new RuntimeException("Actual arrival date must be 32 characters or less");
+				}
+				break;
+			}
+			catch(Exception e){
+				System.out.println(e.getMessage());
+				continue;
+			}
+			
+		}while(true);
+   
+    do{
+			System.out.print("Please input Flight arrival airport code: ");
+			try{
+				arrival_airport = in.readLine();
+				if(arrival_airport.length() <= 0 || arrival_airport.length() > 5){
+					throw new RuntimeException("Arrival airport code must be 5 characters or less");
+				}
+				break;
+			}
+			catch(Exception e){
+				System.out.println(e.getMessage());
+				continue;
+			}
+			
+		}while(true);
+   
+    do{
+			System.out.print("Please input Flight departure airport code: ");
+			try{
+				departure_airport = in.readLine();
+				if(departure_airport.length() <= 0 || departure_airport.length() > 5){
+					throw new RuntimeException("Departure airport code must be 5 characters or less");
+				}
+				break;
+			}
+			catch(Exception e){
+				System.out.println(e.getMessage());
+				continue;
+			}
+			
+		}while(true);
+   
+    try{
+      String query = "INSERT INTO Flight (fnum, cost, num_sold, num_stop, actual_departure_date, actual_arrival_date, arrival_airport, departure_airport)\nVALUES(" + "\'" + fnum + "\'" + cost + "\'" + num_sold + "\'" + num_stops + "\'" + actual_departure_date + "\'" + actual_arrival_date + "\'" + arrival_airport + "\'" + departure_airport + "\');";
+			
+			esql.executeUpdate(query);
+
+		}
+		catch(Exception e){
+			System.err.println(e.getMessage());
+		}
+   
 		/*INSERT INTO FLIGHT(fnum, cost, num_sold, num_stop, actual_departure_date, 
 		 * actual_arrival_date, arrival_airport, departure_airport);
 		 * VALUES(fnum, cost, num_sold, num_stop, actual_departure_date, 
@@ -430,6 +614,46 @@ public class DBproject{
 	public static void AddTechnician(DBproject esql) {//4
 		int id;
 		String full_name;
+    System.out.println("hello");
+    
+    do{
+			System.out.print("Please input Technician ID Number: ");
+			try{
+				id = Integer.parseInt(in.readLine());
+				break;
+			}
+			catch(Exception e){
+				System.out.println(e.getMessage());
+				continue;
+			}
+			
+		}while(true);
+   
+    do{
+			System.out.print("Please input Technician Full Name (e.g. Firstname Lastname): ");
+			try{
+				full_name = in.readLine();
+				if(full_name.length() <= 0 || full_name.length() > 128){
+					throw new RuntimeException("Technician Full Name must be 128 characters or less");
+				}
+				break;
+			}
+			catch(Exception e){
+				System.out.println(e.getMessage());
+				continue;
+			}
+			
+		}while(true);
+   
+    try{
+      String query = "INSERT INTO Technician (id, full_name)\nVALUES(" + "\'" + id + "\',\'" + full_name + "\');";
+			
+			esql.executeUpdate(query);
+
+		}
+		catch(Exception e){
+			System.err.println(e.getMessage());
+		}
 		
 		/*INSERT INTO Technician(id, full_name)
 		 * VALUES(id, full_name*/
@@ -608,6 +832,36 @@ public class DBproject{
 		int fnum;
 		int a_d_date;
 		
+    do{
+			System.out.print("Please input Flight Number: ");
+			try{
+				fnum = Integer.parseInt(in.readLine());
+				break;
+			}
+			catch(Exception e){
+				System.out.println(e.getMessage());
+				continue;
+			}
+			
+		}while(true);
+   
+    do{
+			System.out.print("Please input Flight actual departure date (e.g. 1/1/2000  1:10:00 PM): ");
+			try{
+				a_d_date = in.readLine();
+				if(a_d_date.length() <= 0 || a_d_date.length() > 32){
+					throw new RuntimeException("Actual departure date must be 32 characters or less");
+				}
+				break;
+			}
+			catch(Exception e){
+				System.out.println(e.getMessage());
+				continue;
+			}
+			
+		}while(true);
+
+    // FINISH QUERY
 
 		/*
 		* SELECT(
