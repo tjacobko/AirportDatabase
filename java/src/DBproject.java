@@ -305,7 +305,6 @@ public class DBproject{
 		String model;
 		int age;
 		int seats;
-		System.out.println("hello");
 		
 		do{
 			System.out.print("Please input Plane ID Number: ");
@@ -404,7 +403,6 @@ public class DBproject{
 		int id;
 		String fullname;
 		String nationality;
-		System.out.println("hello");
    
     do{
 			System.out.print("Please input Pilot ID Number: ");
@@ -477,7 +475,6 @@ public class DBproject{
 		String actual_arrival_date;
 		String arrival_airport;
 		String departure_airport;
-    System.out.println("hello");
    
     do{
 			System.out.print("Please input Flight Number: ");
@@ -486,7 +483,7 @@ public class DBproject{
 				break;
 			}
 			catch(Exception e){
-				System.out.println(e.getMessage());
+				System.out.print("Invalid Flight Number");
 				continue;
 			}
 			
@@ -496,6 +493,9 @@ public class DBproject{
 			System.out.print("Please input Flight cost: ");
 			try{
 				cost = Integer.parseInt(in.readLine());
+        if (cost < 0) {
+            throw new RuntimeException("Cost cannot be negative.");
+        }
 				break;
 			}
 			catch(Exception e){
@@ -531,12 +531,12 @@ public class DBproject{
 			
 		}while(true);
 		
-    do{
+    /*do{
       System.out.print("Please input Flight actual departure date (e.g. MM/DD/YYYY  HH:MM:SS AM/PM): ");
 			try{
 				actual_departure_date = in.readLine();
 				if(actual_departure_date.length() <= 0 || actual_departure_date.length() > 23){
-					throw new RuntimeException("Actual departure date must be 32 characters or less");
+					throw new RuntimeException("Actual departure date must be 23 characters or less");
 				}
 				break;
 			}
@@ -545,9 +545,47 @@ public class DBproject{
 				continue;
 			}
 			
-		}while(true);
+		}while(true);*/
    
+    String a_departure_mdy;
+    String a_departure_hms;
+    String a_departure_ampm;
     do{
+      System.out.print("Please input Departure Month/Day/Year (e.g. MM/DD/YYYY): ");
+    	try{
+    		a_departure_mdy = in.readLine();
+    		break;
+    	}
+    	catch(Exception e){
+    		System.out.println(e.getMessage());
+    		continue;
+    	}
+    }while(true);
+    do{
+        System.out.print("Please input Departure Hour:Minute:Second (e.g. HH:MM:SS): ");
+    		try{
+    			a_departure_hms = in.readLine();
+    			break;
+    		}
+    		catch(Exception e){
+    			System.out.println(e.getMessage());
+    			continue;
+    		}
+    }while(true);
+    do{
+        System.out.print("Please input Departure AM or PM: ");
+    		try{
+    			a_departure_ampm = in.readLine();
+    			break;
+    		}
+    		catch(Exception e){
+    			System.out.println(e.getMessage());
+    			continue;
+    		}
+    }while(true);
+    actual_departure_date = a_departure_mdy + "  " + a_departure_hms + " " + a_departure_ampm;
+			
+    /*do{
       System.out.print("Please input Flight actual arrival date (e.g. MM/DD/YYYY  HH:MM:SS AM/PM): ");
 			try{
 				actual_arrival_date = in.readLine();
@@ -561,10 +599,48 @@ public class DBproject{
 				continue;
 			}
 			
-		}while(true);
+		}while(true);*/
+    
+    String a_arrival_mdy;
+    String a_arrival_hms;
+    String a_arrival_ampm;
+    do {
+        System.out.print("Please input Arrival Month/Day/Year (e.g. MM/DD/YYYY): ");
+        try{
+        	a_arrival_mdy = in.readLine();
+        	break;
+        }
+        catch(Exception e){
+        	System.out.println(e.getMessage());
+        	continue;
+        }
+    }while(true);
+    do {
+        System.out.print("Please input Arrival Hour:Minute:Second (e.g. HH:MM:SS): ");
+        try{
+        	a_arrival_hms = in.readLine();
+        	break;
+        }
+        catch(Exception e){
+        	System.out.println(e.getMessage());
+        	continue;
+        }
+    }while(true);
+    do {
+        System.out.print("Please input Arrival AM or PM: ");
+        try{
+        	a_arrival_ampm = in.readLine();
+        	break;
+        }
+        catch(Exception e){
+        	System.out.println(e.getMessage());
+        	continue;
+        }
+    }while(true);
+    actual_arrival_date = a_arrival_mdy + "  " + a_arrival_hms + " " + a_arrival_ampm;
    
     do{
-			System.out.print("Please input Flight arrival airport code: ");
+			System.out.print("Please input Flight arrival airport code (e.g. ABCDE): ");
 			try{
 				arrival_airport = in.readLine();
 				if(arrival_airport.length() <= 0 || arrival_airport.length() > 5){
@@ -580,7 +656,7 @@ public class DBproject{
 		}while(true);
    
     do{
-			System.out.print("Please input Flight departure airport code: ");
+			System.out.print("Please input Flight departure airport code (e.g. ABCDE): ");
 			try{
 				departure_airport = in.readLine();
 				if(departure_airport.length() <= 0 || departure_airport.length() > 5){
@@ -596,8 +672,8 @@ public class DBproject{
 		}while(true);
    
     try{
-      String query = "INSERT INTO Flight (fnum, cost, num_sold, num_stop, actual_departure_date, actual_arrival_date, arrival_airport, departure_airport)\nVALUES(" + "\'" + fnum + "\'" + cost + "\'" + num_sold + "\'" + num_stops + "\'" + actual_departure_date + "\'" + actual_arrival_date + "\'" + arrival_airport + "\'" + departure_airport + "\');";
-			
+      String query = "INSERT INTO Flight (fnum, cost, num_sold, num_stops, actual_departure_date, actual_arrival_date, arrival_airport, departure_airport)\nVALUES(" + "\'" + fnum + "\',\'" + cost + "\',\'" + num_sold + "\',\'" + num_stops + "\',\'" + actual_departure_date + "\',\'" + actual_arrival_date + "\',\'" + arrival_airport + "\',\'" + departure_airport + "\');";
+      
 			esql.executeUpdate(query);
 
 		}
@@ -614,7 +690,6 @@ public class DBproject{
 	public static void AddTechnician(DBproject esql) {//4
 		int id;
 		String full_name;
-    System.out.println("hello");
     
     do{
 			System.out.print("Please input Technician ID Number: ");
@@ -845,21 +920,17 @@ public class DBproject{
 			
 		}while(true);
    
-    do{
-			System.out.print("Please input Flight actual departure date (e.g. MM/DD/YYYY  HH:MM:SS AM/PM): ");
-			try{
-				a_d_date = in.readLine();
-				if(a_d_date.length() <= 0 || a_d_date.length() > 23){
-					throw new RuntimeException("Actual departure date must be 23 characters or less");
-				}
-				break;
-			}
-			catch(Exception e){
-				System.out.println(e.getMessage());
-				continue;
-			}
-			
-		}while(true);
+    do {
+        System.out.print("Please input Arrival Month/Day/Year (e.g. MM/DD/YYYY): ");
+        try{
+        	a_arrival_mdy = in.readLine();
+        	break;
+        }
+        catch(Exception e){
+        	System.out.println(e.getMessage());
+        	continue;
+        }
+    }while(true);
 
     // FINISH QUERY
 

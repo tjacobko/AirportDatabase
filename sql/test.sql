@@ -40,7 +40,33 @@ UPDATE RESERVATION
 SET status = 'C'
 WHERE cid = 111 AND fid = 1111;*/
 
+/*
 SELECT COUNT(*)
 FROM FlightInfo fi, Flight f, Plane p
-WHERE fi.flight_id = f.fnum AND fi.plane_id = p.id AND f.num_sold < p.seats;
+WHERE fi.flight_id = f.fnum AND fi.plane_id = p.id AND f.num_sold < p.seats;*/
+
+/* Test Insert Pilot
+SELECT *
+FROM Pilot
+WHERE id = 250;
+
+/* Test Insert Flight
+SELECT *
+FROM Flight
+WHERE fnum = 2002;
+
+/* Test Insert Technician
+SELECT *
+FROM Technician
+WHERE id = 250;*/
+
+
+
+
+
+
+
+
+
+
 
