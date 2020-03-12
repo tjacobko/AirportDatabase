@@ -48,17 +48,41 @@ WHERE fi.flight_id = f.fnum AND fi.plane_id = p.id AND f.num_sold < p.seats;*/
 /* Test Insert Pilot
 SELECT *
 FROM Pilot
-WHERE id = 250;
+WHERE id = 250;*/
 
 /* Test Insert Flight
 SELECT *
 FROM Flight
-WHERE fnum = 2002;
+WHERE fnum = 2002;*/
 
 /* Test Insert Technician
 SELECT *
 FROM Technician
 WHERE id = 250;*/
+
+/* Test List Seats Available
+SELECT(SELECT p.seats FROM Plane p WHERE p.id = (SELECT fi.plane_id FROM FlightInfo fi, Flight f WHERE f.fnum = '50' AND f.actual_departure_date = '2014-4-5' AND f.fnum = fi.flight_id)) - (SELECT f2.num_sold FROM Flight f2 WHERE F2.fnum = '50' AND f2.actual_departure_date = '2014-4-5') AS SeatsAvailable;*/
+
+/*
+SELECT COUNT(*)
+FROM Reservation r
+WHERE r.fid = '18' AND r.status = 'R';*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

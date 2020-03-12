@@ -921,9 +921,9 @@ public class DBproject{
 		}while(true);
    
     do {
-        System.out.print("Please input Arrival Month/Day/Year (e.g. MM/DD/YYYY): ");
+        System.out.print("Please input Flight Departure Date (e.g. YYYY-MM-DD): ");
         try{
-        	a_arrival_mdy = in.readLine();
+        	a_d_date = in.readLine();
         	break;
         }
         catch(Exception e){
@@ -932,7 +932,16 @@ public class DBproject{
         }
     }while(true);
 
-    // FINISH QUERY
+    try{
+				String query = "SELECT(SELECT p.seats\nFROM Plane p\nWHERE p.id = (SELECT fi.plane_id\nFROM FlightInfo fi, Flight f\nWHERE f.fnum = \'" + Integer.toString(fnum) + "\' AND f.actual_departure_date = \'" + a_d_date + "\' AND f.fnum = fi.flight_id))\n-\n(SELECT f2.num_sold\nFROM Flight f2\nWHERE F2.fnum = \'" + Integer.toString(fnum) + "\' AND f2.actual_departure_date = \'" + a_d_date + "\') AS SeatsAvailable";
+				
+				if(esql.executeQueryAndPrintResult(query) <= 0){
+					throw new RuntimeException("All seats have been sold.");
+				}
+    }
+    catch(Exception e){
+				System.err.println(e.getMessage());
+    }
 
 		/*
 		* SELECT(
@@ -989,11 +998,43 @@ ORDER BY totalRepairs DESC;*/
 	
 	public static void FindPassengersCountWithStatus(DBproject esql) {//9
 		// Find how many passengers there are with a status (i.e. W,C,R) and list that number.
-		
-		/*
-		 * SELECT COUNT(*) as totalPassengers, r.status
-			FROM Reservation r, Customer c
-			WHERE r.cid = c.id AND r.status='W'
-			GROUP BY r.status;*/
+		int fnum;
+    String status;
+   
+    do{
+			System.out.print("Please input Flight Number: ");
+			try{
+				fnum = Integer.parseInt(in.readLine());
+				break;
+			}
+			catch(Exception e){
+				System.out.println(e.getMessage());
+				continue;
+			}
+			
+		}while(true);
+   
+    do{
+			System.out.print("Please input status (e.g. W,C,R): ");
+			try{
+				status = in.readLine();
+				break;
+			}
+			catch(Exception e){
+				System.out.println(e.getMessage());
+				continue;
+			}
+			
+		}while(true);
+    
+    try
+		{
+			String query = "SELECT COUNT(*)\nFROM Reservation r\nWHERE r.fid = \'" + fnum + "\' AND r.status = \'" + status + "\';";
+			esql.executeQueryAndPrintResult(query);
+		}
+		catch (Exception e)
+		{
+			System.err.println(e.getMessage());
+		}
 	}
 }
