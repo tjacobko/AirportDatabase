@@ -205,6 +205,7 @@ public class DBproject{
 	         // ignored.
 		}//end try
 	}//end cleanup
+	
 
 	/**
 	 * The main execution method
@@ -239,7 +240,7 @@ public class DBproject{
 			String user = args[2];
 			
 			esql = new DBproject (dbname, dbport, user, "");
-			
+						
 			boolean keepon = true;
 			while(keepon){
 				System.out.println("MAIN MENU");
@@ -385,7 +386,6 @@ public class DBproject{
    
 		try{
 			String query = "INSERT INTO Plane (id, make, model, age, seats)\nVALUES(" + "\'" + id + "\',\'" + make + "\',\'"+ model + "\',\'" + age + "\',\'" + seats + "\');";
-			//String query = "INSERT INTO Plane (id, make, model, age, seats)\nVALUES(" + "\'" + "69" + "\',\'" + "Honda" + "\',\'"+ "plane" + "\',\'" + "22" + "\',\'" + "200" + "\');";
 			
 			esql.executeUpdate(query);
 
@@ -935,7 +935,7 @@ public class DBproject{
     try{
 				String query = "SELECT(SELECT p.seats\nFROM Plane p\nWHERE p.id = (SELECT fi.plane_id\nFROM FlightInfo fi, Flight f\nWHERE f.fnum = \'" + Integer.toString(fnum) + "\' AND f.actual_departure_date = \'" + a_d_date + "\' AND f.fnum = fi.flight_id))\n-\n(SELECT f2.num_sold\nFROM Flight f2\nWHERE F2.fnum = \'" + Integer.toString(fnum) + "\' AND f2.actual_departure_date = \'" + a_d_date + "\') AS SeatsAvailable";
 				
-				if(esql.executeQueryAndPrintResult(query) <= 0){
+				if(esql.executeQuery(query) <= 0){
 					throw new RuntimeException("All seats have been sold.");
 				}
     }
@@ -1029,7 +1029,7 @@ ORDER BY totalRepairs DESC;*/
     
     try
 		{
-			String query = "SELECT COUNT(*)\nFROM Reservation r\nWHERE r.fid = \'" + fnum + "\' AND r.status = \'" + status + "\';";
+			String query = "SELECT COUNT(*) AS totalPassengers\nFROM Reservation r\nWHERE r.fid = \'" + fnum + "\' AND r.status = \'" + status + "\';";
 			esql.executeQueryAndPrintResult(query);
 		}
 		catch (Exception e)
