@@ -530,22 +530,6 @@ public class DBproject{
 			}
 			
 		}while(true);
-		
-    /*do{
-      System.out.print("Please input Flight actual departure date (e.g. MM/DD/YYYY  HH:MM:SS AM/PM): ");
-			try{
-				actual_departure_date = in.readLine();
-				if(actual_departure_date.length() <= 0 || actual_departure_date.length() > 23){
-					throw new RuntimeException("Actual departure date must be 23 characters or less");
-				}
-				break;
-			}
-			catch(Exception e){
-				System.out.println(e.getMessage());
-				continue;
-			}
-			
-		}while(true);*/
    
     String a_departure_mdy;
     String a_departure_hms;
@@ -584,22 +568,6 @@ public class DBproject{
     		}
     }while(true);
     actual_departure_date = a_departure_mdy + "  " + a_departure_hms + " " + a_departure_ampm;
-			
-    /*do{
-      System.out.print("Please input Flight actual arrival date (e.g. MM/DD/YYYY  HH:MM:SS AM/PM): ");
-			try{
-				actual_arrival_date = in.readLine();
-				if(actual_arrival_date.length() <= 0 || actual_arrival_date.length() > 23){
-					throw new RuntimeException("Actual arrival date must be 23 characters or less");
-				}
-				break;
-			}
-			catch(Exception e){
-				System.out.println(e.getMessage());
-				continue;
-			}
-			
-		}while(true);*/
     
     String a_arrival_mdy;
     String a_arrival_hms;
@@ -935,7 +903,7 @@ public class DBproject{
     try{
 				String query = "SELECT(SELECT p.seats\nFROM Plane p\nWHERE p.id = (SELECT fi.plane_id\nFROM FlightInfo fi, Flight f\nWHERE f.fnum = \'" + Integer.toString(fnum) + "\' AND f.actual_departure_date = \'" + a_d_date + "\' AND f.fnum = fi.flight_id))\n-\n(SELECT f2.num_sold\nFROM Flight f2\nWHERE F2.fnum = \'" + Integer.toString(fnum) + "\' AND f2.actual_departure_date = \'" + a_d_date + "\') AS SeatsAvailable";
 				
-				if(esql.executeQuery(query) <= 0){
+				if(esql.executeQueryAndPrintResult(query) <= 0){
 					throw new RuntimeException("All seats have been sold.");
 				}
     }
