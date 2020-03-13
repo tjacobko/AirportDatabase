@@ -357,7 +357,7 @@ public class DBproject{
 			try{
 				age = Integer.parseInt(in.readLine());
 				if(age < 0){
-					throw new RuntimeException("Age can not be negative.");
+					throw new RuntimeException("Age cannot be negative.");
 				}
 				break;
 			}
@@ -372,8 +372,8 @@ public class DBproject{
 			System.out.print("Please input number of Plane Seats: ");
 			try{
 				seats = Integer.parseInt(in.readLine());
-				if(seats < 0 || seats >= 500){
-					throw new RuntimeException("Number of seats can not be negative.");
+				if(seats <= 0 || seats >= 500){
+					throw new RuntimeException("Number of seats cannot be zero or negative.");
 				}
 				break;
 			}
@@ -393,10 +393,6 @@ public class DBproject{
 		catch(Exception e){
 			System.err.println(e.getMessage());
 		}
-		
-		/*INSERT INTO PLANE (id,make.model,age,seats);
-		 * VALUES(id, make, model, age, seats);*/
-		 
 	}
 
 	public static void AddPilot(DBproject esql) {//2
@@ -457,12 +453,7 @@ public class DBproject{
 		}
 		catch(Exception e){
 			System.err.println(e.getMessage());
-		}
-   
-		/*INSERT INT PILOT(id, fullname, nationality);
-		 * VALUES(id, fullname, nationality)*/
-		 
-		 
+		} 
 	}
 
 	public static void AddFlight(DBproject esql) {//3
@@ -509,6 +500,9 @@ public class DBproject{
 			System.out.print("Please input number of tickets sold: ");
 			try{
 				num_sold = Integer.parseInt(in.readLine());
+        if (num_sold < 0) {
+            throw new RuntimeException("Number of tickets sold cannot be negative.");
+        }
 				break;
 			}
 			catch(Exception e){
@@ -522,6 +516,9 @@ public class DBproject{
 			System.out.print("Please input number of stops: ");
 			try{
 				num_stops = Integer.parseInt(in.readLine());
+        if (num_stops < 0) {
+            throw new RuntimeException("Number of stops cannot be negative.");
+        }
 				break;
 			}
 			catch(Exception e){
@@ -538,6 +535,9 @@ public class DBproject{
       System.out.print("Please input Departure Month/Day/Year (e.g. MM/DD/YYYY): ");
     	try{
     		a_departure_mdy = in.readLine();
+        if (a_departure_mdy.length() > 10 || a_departure_mdy.length() < 8) {
+            throw new RuntimeException("Invalid Month/Day/Year. Please follow format MM/DD/YYYY.");
+        }
     		break;
     	}
     	catch(Exception e){
@@ -549,6 +549,9 @@ public class DBproject{
         System.out.print("Please input Departure Hour:Minute:Second (e.g. HH:MM:SS): ");
     		try{
     			a_departure_hms = in.readLine();
+          if (a_departure_hms.length() > 8 || a_departure_hms.length() < 5) {
+            throw new RuntimeException("Invalid Hour:Minute:Second. Please follow format HH:MM:SS.");
+          }
     			break;
     		}
     		catch(Exception e){
@@ -557,7 +560,7 @@ public class DBproject{
     		}
     }while(true);
     do{
-        System.out.print("Please input Departure AM or PM: ");
+        System.out.print("Please input Departure Time of Day (AM or PM): ");
     		try{
     			a_departure_ampm = in.readLine();
     			break;
@@ -576,6 +579,9 @@ public class DBproject{
         System.out.print("Please input Arrival Month/Day/Year (e.g. MM/DD/YYYY): ");
         try{
         	a_arrival_mdy = in.readLine();
+          if (a_arrival_mdy.length() > 10 || a_arrival_mdy.length() < 8) {
+            throw new RuntimeException("Invalid Month/Day/Year. Please follow format MM/DD/YYYY.");
+          }
         	break;
         }
         catch(Exception e){
@@ -587,6 +593,9 @@ public class DBproject{
         System.out.print("Please input Arrival Hour:Minute:Second (e.g. HH:MM:SS): ");
         try{
         	a_arrival_hms = in.readLine();
+          if (a_arrival_hms.length() > 8 || a_arrival_hms.length() < 5) {
+            throw new RuntimeException("Invalid Hour:Minute:Second. Please follow format HH:MM:SS.");
+          }
         	break;
         }
         catch(Exception e){
@@ -595,7 +604,7 @@ public class DBproject{
         }
     }while(true);
     do {
-        System.out.print("Please input Arrival AM or PM: ");
+        System.out.print("Please input Arrival Time of Day (AM or PM): ");
         try{
         	a_arrival_ampm = in.readLine();
         	break;
@@ -611,8 +620,8 @@ public class DBproject{
 			System.out.print("Please input Flight arrival airport code (e.g. ABCDE): ");
 			try{
 				arrival_airport = in.readLine();
-				if(arrival_airport.length() <= 0 || arrival_airport.length() > 5){
-					throw new RuntimeException("Arrival airport code must be 5 characters or less");
+				if(arrival_airport.length() != 5){
+					throw new RuntimeException("Arrival airport code must be 5 characters.");
 				}
 				break;
 			}
@@ -627,8 +636,8 @@ public class DBproject{
 			System.out.print("Please input Flight departure airport code (e.g. ABCDE): ");
 			try{
 				departure_airport = in.readLine();
-				if(departure_airport.length() <= 0 || departure_airport.length() > 5){
-					throw new RuntimeException("Departure airport code must be 5 characters or less");
+				if(departure_airport.length() != 5){
+					throw new RuntimeException("Departure airport code must be 5 characters.");
 				}
 				break;
 			}
@@ -648,11 +657,6 @@ public class DBproject{
 		catch(Exception e){
 			System.err.println(e.getMessage());
 		}
-   
-		/*INSERT INTO FLIGHT(fnum, cost, num_sold, num_stop, actual_departure_date, 
-		 * actual_arrival_date, arrival_airport, departure_airport);
-		 * VALUES(fnum, cost, num_sold, num_stop, actual_departure_date, 
-		 * actual_arrival_date, arrival_airport, departure_airport);*/
 	}
 
 	public static void AddTechnician(DBproject esql) {//4
@@ -697,10 +701,6 @@ public class DBproject{
 		catch(Exception e){
 			System.err.println(e.getMessage());
 		}
-		
-		/*INSERT INTO Technician(id, full_name)
-		 * VALUES(id, full_name*/
-		
 	}
 
 	public static void BookFlight(DBproject esql) {//5
@@ -856,18 +856,6 @@ public class DBproject{
 		catch(Exception e){
 			System.err.println(e.getMessage());
 		}
-
-		
-		
-		
-		
-	
-		
-		//INSERT INTO RESERVATION (rnum, cid, fid, status)
-		//VALUES (rnum, cid, fid, status)
-		
-		//Use fid to get plane_id, check num_sold < plane.seats
-		//ask for flight data & time, then compare with fid and put w/c/r
 	}
 
 	public static void ListNumberOfAvailableSeats(DBproject esql) {//6
@@ -892,6 +880,12 @@ public class DBproject{
         System.out.print("Please input Flight Departure Date (e.g. YYYY-MM-DD): ");
         try{
         	a_d_date = in.readLine();
+         
+          String query = "SELECT(SELECT p.seats\nFROM Plane p\nWHERE p.id = (SELECT fi.plane_id\nFROM FlightInfo fi, Flight f\nWHERE f.fnum = \'" + Integer.toString(fnum) + "\' AND f.actual_departure_date = \'" + a_d_date + "\' AND f.fnum = fi.flight_id))\n-\n(SELECT f2.num_sold\nFROM Flight f2\nWHERE F2.fnum = \'" + Integer.toString(fnum) + "\' AND f2.actual_departure_date = \'" + a_d_date + "\') AS SeatsAvailable";
+          
+          if (esql.executeQueryAndReturnResult(query).get(0).get(0) == null) {
+              throw new RuntimeException("Invalid Date. Please make sure thee date is correct.");
+          }
         	break;
         }
         catch(Exception e){
@@ -913,30 +907,10 @@ public class DBproject{
     catch(Exception e){
 				System.err.println(e.getMessage());
     }
-
-		/*
-		* SELECT(
-			SELECT p.seats 
-			FROM Plane p
-			WHERE p.id = (
-			SELECT fi.plane_id
-			FROM FlightInfo fi
-			WHERE fi.flight_id = '50'))
-			-
-			(
-			SELECT f.num_sold
-			FROM flight f
-			WHERE f.fnum = '50')as seatsAvailable;*/
-		
 	}
 
 	public static void ListsTotalNumberOfRepairsPerPlane(DBproject esql) {//7
 		// Count number of repairs per planes and list them in descending order
-		/*SELECT COUNT(*) as totalRepairs, p.id
-FROM Repairs r, Plane p
-WHERE r.plane_id = p.id
-GROUP BY p.id
-ORDER BY totalRepairs DESC;*/
 		String query;
 		try{
 			query = "SELECT COUNT(*) as \"totalRepairs\", p.id\nFROM repairs r, Plane p WHERE p.id=r.plane_id\nGROUP BY p.id ORDER BY \"totalRepairs\" DESC;";
@@ -950,10 +924,6 @@ ORDER BY totalRepairs DESC;*/
 
 	public static void ListTotalNumberOfRepairsPerYear(DBproject esql) {//8
 		// Count repairs per year and list them in ascending order
-		/*
-		 * SELECT EXTRACT(YEAR FROM r.repair_date) AS year, COUNT(*) as totalRepiars
-			FROM Repairs r, Plane p
-			GROUP by year;*/
 		String query;
 		
 		try
