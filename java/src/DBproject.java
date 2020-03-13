@@ -903,9 +903,12 @@ public class DBproject{
     try{
 				String query = "SELECT(SELECT p.seats\nFROM Plane p\nWHERE p.id = (SELECT fi.plane_id\nFROM FlightInfo fi, Flight f\nWHERE f.fnum = \'" + Integer.toString(fnum) + "\' AND f.actual_departure_date = \'" + a_d_date + "\' AND f.fnum = fi.flight_id))\n-\n(SELECT f2.num_sold\nFROM Flight f2\nWHERE F2.fnum = \'" + Integer.toString(fnum) + "\' AND f2.actual_departure_date = \'" + a_d_date + "\') AS SeatsAvailable";
 				
-				if(esql.executeQueryAndPrintResult(query) <= 0){
-					throw new RuntimeException("All seats have been sold.");
-				}
+        if (esql.executeQueryAndReturnResult(query).get(0).get(0) == null) {
+          throw new RuntimeException("Invalid Flight. Please make sure flight and date are correct.");
+        }
+        else {
+          esql.executeQueryAndPrintResult(query);
+        }
     }
     catch(Exception e){
 				System.err.println(e.getMessage());
