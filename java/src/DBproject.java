@@ -798,7 +798,7 @@ public class DBproject{
 						if(esql.executeQuery(checkStatus) == 1){
 							do{
 								try{
-								System.out.println("Your reservation is  currently reserved. Would you like to confirm? (Y/N)");
+								System.out.println("Your reservation is currently reserved. Would you like to confirm? (Y/N)");
 								input = in.readLine();
 								if(input.equals("y") || input.equals("Y")){
 									do{
