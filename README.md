@@ -1,7 +1,8 @@
-# CS166_Project
+# Airport Database
+## Jacob Ko and Parth Mangrola (github.com/ParthMmmm)
 
-psql -h localhost -p $PGPORT $USER"_DB" < test.sql
+# Description:
+This is a mock Airport Database system that utilizes a user interface capable of adding various entities, booking flights, listing available seats for a flight, listing number of repairs for certain planes, etc.
 
-1. source compile.sh
-2. source run.sh pmang002_DB 8888 pmang002
-
+# Development:
+We first utilized PreSQL techniques using an ER Diagram and a Relational Model. Then we were able to build our database and utilize queries and inserts within our Java Interface.
