@@ -1,5 +1,5 @@
 # Airport Database
-## Jacob Ko and Parth Mangrola (github.com/ParthMmmm)
+## Jacob Ko and [Parth Mangrola](github.com/ParthMmmm)
 
 # Description:
 This is a mock Airport Database system that utilizes a user interface capable of adding various entities, booking flights, listing available seats for a flight, listing number of repairs for certain planes, etc.
